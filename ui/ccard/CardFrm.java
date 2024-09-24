@@ -1,5 +1,14 @@
 package edu.mum.cs.cs525.labs.exercises.project.ui.ccard;
 
+
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardAccountType;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardApplicationImpl;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.BronzeCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.GoldCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JOptionPane;
@@ -15,7 +24,9 @@ public class CardFrm extends javax.swing.JFrame {
     /****
      * init variables in the object
      ****/
-    String clientName, street, city, zip, state, accountType, amountDeposit, expdate, ccnumber;
+    String clientName, street, city, zip, state, amountDeposit, expdate, ccnumber;
+
+    CreditCardAccountType accountType = CreditCardAccountType.GOLD;
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
@@ -23,9 +34,13 @@ public class CardFrm extends javax.swing.JFrame {
     CardFrm thisframe;
     private Object rowdata[];
 
+    private ApplicationFacade<CreditCardAccountType> applicationFacade;
+
+
     public CardFrm() {
         thisframe = this;
         setTitle("Credit-card processing Application.");
+        this.applicationFacade = new CreditCardApplicationImpl();
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));
         setSize(575, 310);
@@ -73,6 +88,10 @@ public class CardFrm extends javax.swing.JFrame {
         JPanel1.add(JButton_Exit);
         JButton_Exit.setBounds(468, 248, 96, 31);
 
+        JButton_Addinterest.setBounds(448, 20, 106, 33);
+        JButton_Addinterest.setText("Add interest");
+        JPanel1.add(JButton_Addinterest);
+
         JButton_GenBill.setActionCommand("jbutton");
 
         SymWindow aSymWindow = new SymWindow();
@@ -83,6 +102,7 @@ public class CardFrm extends javax.swing.JFrame {
         JButton_GenBill.addActionListener(lSymAction);
         JButton_Deposit.addActionListener(lSymAction);
         JButton_Withdraw.addActionListener(lSymAction);
+        JButton_Addinterest.addActionListener(lSymAction);
 
     }
     /*****************************************************
@@ -114,6 +134,9 @@ public class CardFrm extends javax.swing.JFrame {
     javax.swing.JButton JButton_GenBill = new javax.swing.JButton();
     javax.swing.JButton JButton_Deposit = new javax.swing.JButton();
     javax.swing.JButton JButton_Withdraw = new javax.swing.JButton();
+
+    javax.swing.JButton JButton_Addinterest = new javax.swing.JButton();
+
     javax.swing.JButton JButton_Exit = new javax.swing.JButton();
 
     void exitApplication() {
@@ -153,7 +176,8 @@ public class CardFrm extends javax.swing.JFrame {
             else if (object == JButton_GenBill) JButtonGenerateBill_actionPerformed(event);
             else if (object == JButton_Deposit) JButtonDeposit_actionPerformed(event);
             else if (object == JButton_Withdraw) JButtonWithdraw_actionPerformed(event);
-
+            else if (object == JButton_Addinterest)
+                JButtonAddinterest_actionPerformed(event);
         }
     }
 
@@ -169,6 +193,20 @@ public class CardFrm extends javax.swing.JFrame {
 		 construct a JDialog_AddPAcc type object 
 		 set the boundaries and show it 
 		*/
+
+        if (this.accountType.equals(CreditCardAccountType.GOLD)) {
+            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            newAccount.setType(city);
+            newAccount.setName(clientName);
+        } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
+            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            newAccount.setType(city);
+            newAccount.setName(clientName);
+        }else {
+            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            newAccount.setType(city);
+            newAccount.setName(clientName);
+        }
 
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
         ccac.setBounds(450, 20, 300, 380);
@@ -205,6 +243,9 @@ public class CardFrm extends javax.swing.JFrame {
             dep.setBounds(430, 15, 275, 140);
             dep.show();
 
+            Account account = this.applicationFacade.getAccounts().get(selection);
+            this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
+
             // compute new amount
             long deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
@@ -225,6 +266,8 @@ public class CardFrm extends javax.swing.JFrame {
             wd.setBounds(430, 15, 275, 140);
             wd.show();
 
+            Account account = this.applicationFacade.getAccounts().get(selection);
+            this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
             // compute new amount
             long deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
@@ -235,5 +278,13 @@ public class CardFrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " " + name + " Your balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
             }
         }
+    }
+
+    void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
+        this.applicationFacade.applyInterestToAllAccount();
+        for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
+            model.setValueAt(this.applicationFacade.getAccounts().get(i).getBalance(),i,4);
+        }
+        JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }
 }

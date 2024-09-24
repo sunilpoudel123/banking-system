@@ -305,7 +305,6 @@ public class BankFrm extends javax.swing.JFrame {
             String samount = (String) model.getValueAt(selection, 5);
             Account account = this.applicationFacade.getAccounts().get(selection);
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
-            System.out.println(account.getBalance());
             long currentamount = Long.parseLong(samount);
             long newamount = currentamount - deposit;
             if (newamount < 0) {

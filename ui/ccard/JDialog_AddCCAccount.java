@@ -3,6 +3,8 @@ package edu.mum.cs.cs525.labs.exercises.project.ui.ccard;
 		A basic implementation of the JDialog class.
 */
 
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardAccountType;
+
 public class JDialog_AddCCAccount extends javax.swing.JDialog {
     private CardFrm parentframe;
 
@@ -181,14 +183,13 @@ public class JDialog_AddCCAccount extends javax.swing.JDialog {
         parentframe.ccnumber = JTextField_CCNR.getText();
         parentframe.expdate = JTextField_ExpDate.getText();
         if (JRadioButton_Gold.isSelected())
-            parentframe.accountType = "Gold";
+            parentframe.accountType = CreditCardAccountType.GOLD;
         else {
             if (JRadioButton_Silver.isSelected())
-                parentframe.accountType = "Silver";
+                parentframe.accountType = CreditCardAccountType.SILVER;
             else
-                parentframe.accountType = "Bronze";
+                parentframe.accountType = CreditCardAccountType.BRONZE;
         }
-
         parentframe.newaccount = true;
         dispose();
     }

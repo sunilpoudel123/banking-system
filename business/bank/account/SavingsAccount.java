@@ -4,7 +4,6 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrategy;
 
 public class SavingsAccount extends Account {
-
     private String name;
     private String city;
     private String ownershipType;

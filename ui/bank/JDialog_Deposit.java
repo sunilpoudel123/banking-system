@@ -1,14 +1,18 @@
 package edu.mum.cs.cs525.labs.exercises.project.ui.bank;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+
 import java.awt.*;
 import javax.swing.*;
 
 public class JDialog_Deposit extends javax.swing.JDialog
 {
-    
 
     private BankFrm parentframe;
     private String accnr;
-    
+
+
 	public JDialog_Deposit(BankFrm parent, String aaccnr)
 	{
 		super(parent);

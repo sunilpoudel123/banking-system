@@ -3,6 +3,8 @@ package edu.mum.cs.cs525.labs.exercises.project.ui.bank;
 		A basic implementation of the JDialog class.
 */
 
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
+
 import java.awt.*;
 import javax.swing.*;
 
@@ -179,9 +181,9 @@ public class JDialog_AddPAcc extends javax.swing.JDialog
        parentframe.zip=JTextField_ZIP.getText();
        parentframe.state=JTextField_ST.getText();
        if (JRadioButton_Chk.isSelected())
-           parentframe.accountType="Ch";
+           parentframe.accountType= BankAccountType.CHECKING;
            else
-           parentframe.accountType="S";
+           parentframe.accountType=BankAccountType.SAVINGS;
 	   parentframe.newaccount=true;
        dispose();
 	}

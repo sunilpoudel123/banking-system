@@ -2,6 +2,9 @@ package edu.mum.cs.cs525.labs.exercises.project.ui.bank;
 
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankApplicationImpl;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAccount;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
 
 import java.awt.*;
@@ -17,7 +20,8 @@ public class BankFrm extends javax.swing.JFrame {
     /****
      * init variables in the object
      ****/
-    String accountnr, clientName, street, city, zip, state, accountType, clientType, amountDeposit;
+    String accountnr, clientName, street, city, zip, state, clientType, amountDeposit;
+    BankAccountType accountType;
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
@@ -198,6 +202,18 @@ public class BankFrm extends javax.swing.JFrame {
         pac.setBounds(450, 20, 300, 330);
         pac.show();
 
+        if (this.accountType.equals(BankAccountType.SAVINGS)) {
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            newAccount.setCity(city);
+            newAccount.setOwnershipType("Personal");
+            newAccount.setName(clientName);
+        } else {
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            newAccount.setCity(city);
+            newAccount.setOwnershipType("Personal");
+            newAccount.setName(clientName);
+        }
+
         if (newaccount) {
             // add row to table
             rowdata[0] = accountnr;
@@ -223,6 +239,18 @@ public class BankFrm extends javax.swing.JFrame {
         pac.setBounds(450, 20, 300, 330);
         pac.show();
 
+        if (this.accountType.equals(BankAccountType.SAVINGS)) {
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            newAccount.setCity(city);
+            newAccount.setOwnershipType("Company");
+            newAccount.setName(clientName);
+        } else {
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            newAccount.setCity(city);
+            newAccount.setOwnershipType("Company");
+            newAccount.setName(clientName);
+        }
+
         if (newaccount) {
             // add row to table
             rowdata[0] = accountnr;
@@ -240,6 +268,7 @@ public class BankFrm extends javax.swing.JFrame {
     void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {
         // get selected name
         int selection = JTable1.getSelectionModel().getMinSelectionIndex();
+
         if (selection >= 0) {
             String accnr = (String) model.getValueAt(selection, 0);
 
@@ -251,6 +280,9 @@ public class BankFrm extends javax.swing.JFrame {
             // compute new amount
             long deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 5);
+            Account account = this.applicationFacade.getAccounts().get(selection);
+            this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
+            System.out.println(account.getBalance());
             long currentamount = Long.parseLong(samount);
             long newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 5);
@@ -273,16 +305,28 @@ public class BankFrm extends javax.swing.JFrame {
             // compute new amount
             long deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 5);
+            Account account = this.applicationFacade.getAccounts().get(selection);
+            this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
+            System.out.println(account.getBalance());
             long currentamount = Long.parseLong(samount);
             long newamount = currentamount - deposit;
-            model.setValueAt(String.valueOf(newamount), selection, 5);
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
+            } else {
+                model.setValueAt(String.valueOf(newamount), selection, 5);
             }
         }
     }
 
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
+
+        this.applicationFacade.applyInterestToAllAccount();
+
+        for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
+            model.setValueAt(this.applicationFacade.getAccounts().get(i).getBalance(),i,5);
+        }
+
+        model.addRow(rowdata);
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }
 }

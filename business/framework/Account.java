@@ -11,7 +11,7 @@ public abstract class Account {
 
     protected AccountInvoker invoker = new AccountInvoker(); // Invoker for commands
 
-    private final List<Entry> entryList = new ArrayList<Entry>();
+    private final List<Transaction> transactions = new ArrayList<Transaction>();
 
     public Account(String accountNumber, double balance,InterestStrategy interestStrategy) {
         this.accountNumber = accountNumber;
@@ -33,19 +33,19 @@ public abstract class Account {
 
     public void deposit(double amount) {
         balance += amount;
-        Entry entry = new Entry(amount,"",Event.DEPOSIT);
-        this.entryList.add(entry);
+        Transaction transaction = new Transaction(amount,"", TransactionType.DEPOSIT);
+        this.transactions.add(transaction);
     }
 
-    public List<Entry> getEntryList() {
-        return this.entryList;
+    public List<Transaction> getTransactions() {
+        return this.transactions;
     }
 
     public void withdraw(double amount) {
         if (balance >= amount) {
             balance -= amount;
-            Entry entry = new Entry(amount,"",Event.WITHDRAW);
-            this.entryList.add(entry);
+            Transaction transaction = new Transaction(amount,"", TransactionType.WITHDRAW);
+            this.transactions.add(transaction);
         } else {
             System.out.println("Insufficient balance.");
         }

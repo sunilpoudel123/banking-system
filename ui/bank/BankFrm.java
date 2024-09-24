@@ -287,8 +287,6 @@ public class BankFrm extends javax.swing.JFrame {
             long newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 5);
         }
-
-
     }
 
     void JButtonWithdraw_actionPerformed(java.awt.event.ActionEvent event) {
@@ -319,14 +317,10 @@ public class BankFrm extends javax.swing.JFrame {
     }
 
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
-
         this.applicationFacade.applyInterestToAllAccount();
-
         for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
             model.setValueAt(this.applicationFacade.getAccounts().get(i).getBalance(),i,5);
         }
-
-        model.addRow(rowdata);
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }
 }

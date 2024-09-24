@@ -1,24 +1,23 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.framework;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Entry {
+public class Transaction {
 
     private Date date;
     private double amount;
     private String description;
-    private Event event;
+    private TransactionType transactionType;
 
-    public Entry(double amount, String description, Event event) {
+    public Transaction(double amount, String description, TransactionType transactionType) {
         this.amount = amount;
         this.date = new Date();
         this.description = description;
-        this.event = event;
+        this.transactionType = transactionType;
     }
 
-    public Event getEvent() {
-        return this.event;
+    public TransactionType getEvent() {
+        return this.transactionType;
     }
 
     public String getDescription() {
@@ -39,7 +38,7 @@ public class Entry {
                 "date=" + date +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
-                ", event=" + event +
+                ", event=" + transactionType +
                 '}';
     }
 }

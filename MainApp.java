@@ -26,8 +26,8 @@ public class MainApp {
         savings.deposit(1000);
         savings.withdraw(500);
         savings.applyInterest();
-        for (Entry entry : savings.getEntryList()) {
-            System.out.println(entry);
+        for (Transaction transaction : savings.getTransactions()) {
+            System.out.println(transaction);
         }
         System.out.println(savings.getAccountType() + " Balance: " + savings.getBalance());
 

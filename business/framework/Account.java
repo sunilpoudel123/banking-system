@@ -52,7 +52,7 @@ public abstract class Account {
     }
 
     public void applyInterest() {
-        balance += interestStrategy.calculateInterest(balance);
+
     }
 
     public abstract String getAccountType();
@@ -66,4 +66,19 @@ public abstract class Account {
         invoker.undoLastCommand();
     }
 
+    public double getPreviousBalance() {
+        return getBalance();
+    }
+
+    public double getTotalCharges() {
+        return 0.0;
+    }
+
+    public double getTotalCredits() {
+        return 0.0;
+    }
+
+    public double getInterestRate() {
+        return 0.0;
+    }
 }

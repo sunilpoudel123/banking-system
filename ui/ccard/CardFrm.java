@@ -25,7 +25,6 @@ public class CardFrm extends javax.swing.JFrame {
 
     public CardFrm() {
         thisframe = this;
-
         setTitle("Credit-card processing Application.");
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));

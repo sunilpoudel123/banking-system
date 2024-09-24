@@ -1,5 +1,9 @@
 package edu.mum.cs.cs525.labs.exercises.project.ui.bank;
 
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankApplicationImpl;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -21,7 +25,10 @@ public class BankFrm extends javax.swing.JFrame {
     BankFrm myframe;
     private Object rowdata[];
 
+    private ApplicationFacade<BankAccountType> applicationFacade;
+
     public BankFrm() {
+        this.applicationFacade = new BankApplicationImpl();
         myframe = this;
         setTitle("Bank Application.");
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);

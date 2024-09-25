@@ -15,7 +15,7 @@ public abstract class Account {
     private final List<Transaction> transactions = new ArrayList<Transaction>();
     private Transaction lastAttemptTransaction;
 
-    public Account(String accountNumber, double balance,InterestStrategy interestStrategy, String email) {
+    public Account(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.interestStrategy = interestStrategy;
@@ -36,7 +36,7 @@ public abstract class Account {
 
     public void deposit(double amount) {
         balance += amount;
-        Transaction transaction = new Transaction(amount,"", TransactionType.DEPOSIT);
+        Transaction transaction = new Transaction(amount, "", TransactionType.DEPOSIT);
         lastAttemptTransaction = transaction;
         addTransaction(transaction);
     }
@@ -50,7 +50,7 @@ public abstract class Account {
     }
 
     public void withdraw(double amount) {
-        Transaction transaction = new Transaction(amount,"", TransactionType.WITHDRAW);
+        Transaction transaction = new Transaction(amount, "", TransactionType.WITHDRAW);
         lastAttemptTransaction = transaction;
         if (balance >= amount) {
             balance -= amount;
@@ -65,6 +65,7 @@ public abstract class Account {
     }
 
     public abstract String getAccountType();
+
     public abstract String getOwnershipType();
 
     public void executeTransaction(Command command) {
@@ -84,6 +85,7 @@ public abstract class Account {
         transaction.approve();
         this.transactions.add(transaction);
     }
+
     public double getPreviousBalance() {
         return getBalance();
     }
@@ -100,19 +102,18 @@ public abstract class Account {
         return 0.0;
     }
 
-//    public final String generate() {
-//        calculatePreviousBalance();
-//        calculateTotalCharges();
-//        calculateTotalCredits();
-//        double newBalance = calculateNewBalance();
-//        double totalDue = calculateTotalDue(newBalance);
-//        return "Previous Balance: " + previousBalance + "\n" +
-//                "Total Charges: " + totalCharges + "\n" +
-//                "Total Credits: " + totalCredits + "\n" +
-//                "New Balance: " + newBalance + "\n" +
-//                "Total Due: " + totalDue;
-//    }
+    public final String generate() {
+        double newBalance = calculateNewBalance();
+        double totalDue = calculateTotalDue(newBalance);
+        return "Previous Balance: " + getPreviousBalance() + "\n" +
+                "Total Charges: " + getTotalCharges() + "\n" +
+                "Total Credits: " + getTotalCredits() + "\n" +
+                "New Balance: " + newBalance + "\n" +
+                "Total Due: " + totalDue;
+    }
 
+    protected abstract double calculateNewBalance();
 
+    protected abstract double calculateTotalDue(double newBalance);
 
 }

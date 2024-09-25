@@ -33,6 +33,16 @@ public class CheckingAccount extends Account {
         return ownershipType;
     }
 
+    @Override
+    protected double calculateNewBalance() {
+        return 0;
+    }
+
+    @Override
+    protected double calculateTotalDue(double newBalance) {
+        return 0;
+    }
+
     public CheckingAccount(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
         super(accountNumber, balance ,interestStrategy, email);
     }

@@ -1,6 +1,8 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.bank;
 
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.factory.BankAccountFactory;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.CheckingInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public class BankApplicationImpl implements ApplicationFacade<BankAccountType> {
     @Override
     public Account createAccount(BankAccountType accountType, double balance, String accountNumber) {
         BankAccountFactory bankAccountFactory = new BankAccountFactory();
-        Account newAccount = bankAccountFactory.createAccount(accountType,balance, accountNumber);
+        Account newAccount = bankAccountFactory.createAccount(accountType, balance, accountNumber);
         this.accounts.add(newAccount);
         return newAccount;
     }
@@ -31,7 +33,7 @@ public class BankApplicationImpl implements ApplicationFacade<BankAccountType> {
 
     @Override
     public void applyInterestToAllAccount() {
-        for (Account account:this.accounts) {
+        for (Account account : this.accounts) {
             account.applyInterest();
         }
     }
@@ -44,5 +46,18 @@ public class BankApplicationImpl implements ApplicationFacade<BankAccountType> {
     @Override
     public List<Account> getAccounts() {
         return this.accounts;
+    }
+
+    @Override
+    public Account getAccount(String accountNumber) {
+        return this.accounts.stream()
+                .filter(account -> account.getAccountNumber().equals(accountNumber))
+                .findAny()
+                .orElse(createDummyAccount()); // Return null if no matching account is found
+    }
+
+    private Account createDummyAccount() {
+        Account dummyAccount = new SavingsAccount("123", 400, new CheckingInterest());
+        return dummyAccount;
     }
 }

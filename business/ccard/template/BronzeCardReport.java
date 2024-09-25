@@ -1,10 +1,15 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.ccard.template;
 
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Report;
 
 import static edu.mum.cs.cs525.labs.exercises.project.business.ccard.ApplicationConfiguration.BRONZE_CARD;
 
 public class BronzeCardReport extends Report {
+    public BronzeCardReport(Account account) {
+        super(account);
+    }
+
     @Override
     protected double calculateNewBalance() {
         return previousBalance - totalCredits + totalCharges + BRONZE_CARD.getMonthlyInterestRate() * (previousBalance - totalCredits);

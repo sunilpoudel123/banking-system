@@ -1,6 +1,8 @@
 package edu.mum.cs.cs525.labs.exercises.project.ui.ccard;
 
 
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.observer.CompanyEmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.observer.PersonalEmailSender;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardAccountType;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardApplicationImpl;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.BronzeCard;
@@ -8,6 +10,8 @@ import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.GoldCard;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
 
 import java.awt.BorderLayout;
 
@@ -24,7 +28,7 @@ public class CardFrm extends javax.swing.JFrame {
     /****
      * init variables in the object
      ****/
-    String clientName, street, city, zip, state, amountDeposit, expdate, ccnumber;
+    String clientName, street, city, zip, state, amountDeposit, expdate, ccnumber, email;
 
     CreditCardAccountType accountType = CreditCardAccountType.GOLD;
     boolean newaccount;
@@ -41,6 +45,9 @@ public class CardFrm extends javax.swing.JFrame {
         thisframe = this;
         setTitle("Credit-card processing Application.");
         this.applicationFacade = new CreditCardApplicationImpl();
+        EmailSender mockEmailSender = new MockEmailSender();
+        this.applicationFacade.addObserver(new CompanyEmailSender(mockEmailSender));
+        this.applicationFacade.addObserver(new PersonalEmailSender(mockEmailSender));
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));
         setSize(575, 310);
@@ -62,6 +69,7 @@ public class CardFrm extends javax.swing.JFrame {
         model.addColumn("Exp date");
         model.addColumn("Type");
         model.addColumn("Balance");
+        model.addColumn("Email");
         rowdata = new Object[7];
         newaccount = false;
 
@@ -195,17 +203,26 @@ public class CardFrm extends javax.swing.JFrame {
 		*/
 
         if (this.accountType.equals(CreditCardAccountType.GOLD)) {
-            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
             newAccount.setType(city);
             newAccount.setName(clientName);
+
+            // TODO: make ui support ownership
+            newAccount.setOwnershipType("Personal");
         } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
-            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
             newAccount.setType(city);
             newAccount.setName(clientName);
+
+            // TODO: make ui support ownership
+            newAccount.setOwnershipType("Personal");
         }else {
-            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber);
+            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
             newAccount.setType(city);
             newAccount.setName(clientName);
+
+            // TODO: make ui support ownership
+            newAccount.setOwnershipType("Personal");
         }
 
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
@@ -219,6 +236,7 @@ public class CardFrm extends javax.swing.JFrame {
             rowdata[2] = expdate;
             rowdata[3] = accountType;
             rowdata[4] = "0";
+            rowdata[5] = email;
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;

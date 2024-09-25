@@ -7,6 +7,7 @@ public class BronzeCard extends Account {
 
 
     String name,expDate,type;
+    private String ownershipType;
 
     public String getName() {
         return name;
@@ -43,7 +44,11 @@ public class BronzeCard extends Account {
 
     @Override
     public String getOwnershipType() {
-        return "unimplemented";
+        return ownershipType;
+    }
+
+    public void setOwnershipType(String ownershipType) {
+        this.ownershipType = ownershipType;
     }
 }
 

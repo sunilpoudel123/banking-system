@@ -6,6 +6,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrate
 public class SilverCard extends Account {
 
     String name,expDate,type;
+    private String ownershipType;
 
     public String getName() {
         return name;
@@ -41,7 +42,11 @@ public class SilverCard extends Account {
 
     @Override
     public String getOwnershipType() {
-        return "unimplemented";
+        return ownershipType;
+    }
+
+    public void setOwnershipType(String ownershipType) {
+        this.ownershipType = ownershipType;
     }
 }
 

@@ -287,13 +287,13 @@ public class BankFrm extends javax.swing.JFrame {
             dep.show();
 
             // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
+            double deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 5);
             Account account = this.applicationFacade.getAccounts().get(selection);
             this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
             System.out.println(account.getBalance());
-            long currentamount = Long.parseLong(samount);
-            long newamount = currentamount + deposit;
+            double currentamount = Double.parseDouble(samount);
+            double newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 5);
         }
     }
@@ -310,12 +310,12 @@ public class BankFrm extends javax.swing.JFrame {
             wd.show();
 
             // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
+            double deposit = Long.parseLong(amountDeposit);
             String samount = (String) model.getValueAt(selection, 5);
             Account account = this.applicationFacade.getAccounts().get(selection);
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
-            long currentamount = Long.parseLong(samount);
-            long newamount = currentamount - deposit;
+            double currentamount = Double.parseDouble(samount);
+            double newamount = currentamount - deposit;
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
             } else {
@@ -327,7 +327,7 @@ public class BankFrm extends javax.swing.JFrame {
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
         this.applicationFacade.applyInterestToAllAccount();
         for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
-            model.setValueAt(this.applicationFacade.getAccounts().get(i).getBalance(),i,5);
+            model.setValueAt(String.valueOf(this.applicationFacade.getAccounts().get(i).getBalance()) ,i,5);
         }
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }

@@ -265,10 +265,10 @@ public class CardFrm extends javax.swing.JFrame {
             this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
 
             // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
+            double deposit = Double.parseDouble(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
-            long currentamount = Long.parseLong(samount);
-            long newamount = currentamount + deposit;
+            double currentamount = Long.parseLong(samount);
+            double newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 4);
         }
     }
@@ -287,10 +287,10 @@ public class CardFrm extends javax.swing.JFrame {
             Account account = this.applicationFacade.getAccounts().get(selection);
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
             // compute new amount
-            long deposit = Long.parseLong(amountDeposit);
+            double deposit = Double.parseDouble(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
-            long currentamount = Long.parseLong(samount);
-            long newamount = currentamount - deposit;
+            double currentamount = Double.parseDouble(samount);
+            double newamount = currentamount - deposit;
             model.setValueAt(String.valueOf(newamount), selection, 4);
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " " + name + " Your balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
@@ -301,7 +301,7 @@ public class CardFrm extends javax.swing.JFrame {
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
         this.applicationFacade.applyInterestToAllAccount();
         for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
-            model.setValueAt(this.applicationFacade.getAccounts().get(i).getBalance(),i,4);
+            model.setValueAt(String.valueOf(this.applicationFacade.getAccounts().get(i).getBalance()) ,i,4);
         }
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }

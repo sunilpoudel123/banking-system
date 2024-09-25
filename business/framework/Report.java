@@ -16,7 +16,7 @@ public abstract class Report {
         calculateTotalCredits();
         double newBalance = calculateNewBalance();
         double totalDue = calculateTotalDue(newBalance);
-        displayReport(newBalance, totalDue);
+
         return generateReportString(newBalance, totalDue);
     }
 

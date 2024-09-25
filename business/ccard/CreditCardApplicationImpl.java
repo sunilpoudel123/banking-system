@@ -74,11 +74,6 @@ public class CreditCardApplicationImpl implements ApplicationFacade<CreditCardAc
                 .filter(account -> account.getAccountNumber() != null &&
                         account.getAccountNumber().equals(accountNumber))
                 .findAny()
-                .orElse(createDummyAccount());
-    }
-
-    private Account createDummyAccount() {
-        Account dummyAccount = new SavingsAccount("123", 400, new CheckingInterest(), "email");
-        return dummyAccount;
+                .orElse(null);
     }
 }

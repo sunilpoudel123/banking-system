@@ -50,5 +50,6 @@ public class BronzeCard extends Account {
     public void setOwnershipType(String ownershipType) {
         this.ownershipType = ownershipType;
     }
+
 }
 

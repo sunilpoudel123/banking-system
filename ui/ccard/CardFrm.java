@@ -202,28 +202,28 @@ public class CardFrm extends javax.swing.JFrame {
 		 set the boundaries and show it 
 		*/
 
-        if (this.accountType.equals(CreditCardAccountType.GOLD)) {
-            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
-        } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
-            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
-        }else {
-            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
-        }
+//        if (this.accountType.equals(CreditCardAccountType.GOLD)) {
+//            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+//            newAccount.setType(city);
+//            newAccount.setName(clientName);
+//
+//            // TODO: make ui support ownership
+//            newAccount.setOwnershipType("Personal");
+//        } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
+//            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+//            newAccount.setType(city);
+//            newAccount.setName(clientName);
+//
+//            // TODO: make ui support ownership
+//            newAccount.setOwnershipType("Personal");
+//        }else {
+//            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+//            newAccount.setType(city);
+//            newAccount.setName(clientName);
+//
+//            // TODO: make ui support ownership
+//            newAccount.setOwnershipType("Personal");
+//        }
 
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
         ccac.setBounds(450, 20, 300, 380);
@@ -240,6 +240,30 @@ public class CardFrm extends javax.swing.JFrame {
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
+
+            if (this.accountType.equals(CreditCardAccountType.GOLD)) {
+                GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                newAccount.setOwnershipType("Personal");
+            } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
+                SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                newAccount.setOwnershipType("Personal");
+            }else {
+                BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                newAccount.setOwnershipType("Personal");
+            }
+
         }
     }
 

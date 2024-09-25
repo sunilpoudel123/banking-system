@@ -99,4 +99,20 @@ public abstract class Account {
     public double getInterestRate() {
         return 0.0;
     }
+
+//    public final String generate() {
+//        calculatePreviousBalance();
+//        calculateTotalCharges();
+//        calculateTotalCredits();
+//        double newBalance = calculateNewBalance();
+//        double totalDue = calculateTotalDue(newBalance);
+//        return "Previous Balance: " + previousBalance + "\n" +
+//                "Total Charges: " + totalCharges + "\n" +
+//                "Total Credits: " + totalCredits + "\n" +
+//                "New Balance: " + newBalance + "\n" +
+//                "Total Due: " + totalDue;
+//    }
+
+
+
 }

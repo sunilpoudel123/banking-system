@@ -5,11 +5,19 @@ package edu.mum.cs.cs525.labs.exercises.project.ui.ccard;
 
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankApplicationImpl;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAccount;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.template.BankAccountReport;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardAccountType;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardApplicationImpl;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.BronzeCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.GoldCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.template.BronzeCardReport;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.template.GoldCardReport;
+import edu.mum.cs.cs525.labs.exercises.project.business.ccard.template.SilverCardReport;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Report;
 
 import java.awt.*;
 import java.util.List;
@@ -43,15 +51,23 @@ public class JDialogGenBill extends javax.swing.JDialog {
         // Get selected account number from JTable
         int selection = JTable1.getSelectionModel().getMinSelectionIndex();
         if (selection >= 0 && model.getRowCount() > 0) {
-            String accountNumber = (String) model.getValueAt(selection, 1); // Assuming account number is in column 0
+            String accountNumber = (String) model.getValueAt(selection, 1);
             Account acc = applicationFacade.getAccount(accountNumber);
             if (acc != null) {
-                // Generate the report
-                GoldCardReport goldCardReport = new GoldCardReport(acc);
+                Report reportClass;
+                if (acc instanceof GoldCard) {
+                    reportClass = new GoldCardReport(acc);
+                } else if (acc instanceof SilverCard) {
+                    reportClass = new SilverCardReport(acc);
+                } else if (acc instanceof BronzeCard) {
+                    reportClass = new BronzeCardReport(acc);
+                } else if (acc instanceof CheckingAccount) {
+                    reportClass = new BankAccountReport(acc);
+                } else {
+                    reportClass = new BankAccountReport(acc);
+                }
                 System.out.println("Details are being generated");
-                String report = goldCardReport.generate();
-
-                // Set the generated report text in the JTextField
+                String report = reportClass.generate();
                 JTextField1.setText(report);
             } else {
                 JTextField1.setText("Account not found.");

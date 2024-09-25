@@ -8,10 +8,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.ccard.CreditCardApplicat
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.BronzeCard;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.GoldCard;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
 import java.awt.*;
 
@@ -47,9 +44,9 @@ public class CardFrm extends javax.swing.JFrame {
         thisframe = this;
         setTitle("Credit-card processing Application.");
         this.applicationFacade = new CreditCardApplicationImpl();
-        EmailSender mockEmailSender = new MockEmailSender();
-        this.applicationFacade.addObserver(new CompanyEmailSender(mockEmailSender));
-        this.applicationFacade.addObserver(new PersonalEmailSender(mockEmailSender));
+        EmailSender emailSender = new JPaneEmailSender();
+        this.applicationFacade.addObserver(new CompanyEmailSender(emailSender));
+        this.applicationFacade.addObserver(new PersonalEmailSender(emailSender));
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         getContentPane().setLayout(new BorderLayout(0, 0));
         setSize(575, 310);

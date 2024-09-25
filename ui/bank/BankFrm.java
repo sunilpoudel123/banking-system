@@ -6,10 +6,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAcc
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.observer.CompanyEmailSender;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.observer.PersonalEmailSender;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,9 +34,9 @@ public class BankFrm extends javax.swing.JFrame {
 
     public BankFrm() {
         this.applicationFacade = new BankApplicationImpl();
-        EmailSender mockEmailSender = new MockEmailSender();
-        this.applicationFacade.addObserver(new CompanyEmailSender(mockEmailSender));
-        this.applicationFacade.addObserver(new PersonalEmailSender(mockEmailSender));
+        EmailSender emailSender = new JPaneEmailSender();
+        this.applicationFacade.addObserver(new CompanyEmailSender(emailSender));
+        this.applicationFacade.addObserver(new PersonalEmailSender(emailSender));
         myframe = this;
         setTitle("Bank Application.");
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);

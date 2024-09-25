@@ -1,9 +1,6 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.ccard.observer;
 
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Observer;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Transaction;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
 public class CompanyEmailSender implements Observer {
     private EmailSender emailSender;
@@ -15,7 +12,7 @@ public class CompanyEmailSender implements Observer {
     @Override
     public void update(Account account) {
         Transaction lastAttempTransaction = account.getLastAttemptTransaction();
-        if (account.getOwnershipType().equals("Company")) {
+        if (account.getAccountOwnerType().equals(AccountOwnerType.COMPANY)) {
             emailSender.sendEmail("info@bank.com", account.getEmail(), "notify", lastAttempTransaction.toString());
         }
     }

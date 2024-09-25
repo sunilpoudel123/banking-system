@@ -12,7 +12,7 @@ public class PersonalEmailSender implements Observer {
     @Override
     public void update(Account account) {
         Transaction  lastAttempTransaction = account.getLastAttemptTransaction();
-        if (account.getOwnershipType().equals("Personal")) {
+        if (account.getAccountOwnerType().equals(AccountOwnerType.PERSONAL)) {
             if (lastAttempTransaction.getTransactionType().equals(TransactionType.WITHDRAW)
                 && !lastAttempTransaction.isApproved()
                 && account.getBalance() < lastAttempTransaction.getAmount()) {

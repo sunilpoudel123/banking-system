@@ -11,6 +11,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
+import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 
@@ -33,7 +34,8 @@ public class BankFrm extends javax.swing.JFrame {
     private ApplicationFacade<BankAccountType> applicationFacade;
 
     public BankFrm() {
-        this.applicationFacade = new BankApplicationImpl();
+        AccountDOA accountDOA = new AccountDOAInMemory();
+        this.applicationFacade = new BankApplicationImpl(accountDOA);
         EmailSender emailSender = new JPaneEmailSender();
         this.applicationFacade.addObserver(new CompanyEmailSender(emailSender));
         this.applicationFacade.addObserver(new PersonalEmailSender(emailSender));
@@ -208,14 +210,12 @@ public class BankFrm extends javax.swing.JFrame {
         pac.show();
 
         if (this.accountType.equals(BankAccountType.SAVINGS)) {
-            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email );
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email, AccountOwnerType.PERSONAL);
             newAccount.setCity(city);
-            newAccount.setOwnershipType("Personal");
             newAccount.setName(clientName);
         } else {
-            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email, AccountOwnerType.PERSONAL);
             newAccount.setCity(city);
-            newAccount.setOwnershipType("Personal");
             newAccount.setName(clientName);
         }
 
@@ -246,14 +246,12 @@ public class BankFrm extends javax.swing.JFrame {
         pac.show();
 
         if (this.accountType.equals(BankAccountType.SAVINGS)) {
-            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email, AccountOwnerType.COMPANY);
             newAccount.setCity(city);
-            newAccount.setOwnershipType("Company");
             newAccount.setName(clientName);
         } else {
-            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email, AccountOwnerType.COMPANY);
             newAccount.setCity(city);
-            newAccount.setOwnershipType("Company");
             newAccount.setName(clientName);
         }
         if (newaccount) {
@@ -285,13 +283,17 @@ public class BankFrm extends javax.swing.JFrame {
 
             // compute new amount
             double deposit = Long.parseLong(amountDeposit);
-            String samount = (String) model.getValueAt(selection, 5);
-            Account account = this.applicationFacade.getAccounts().get(selection);
+//            String samount = (String) model.getValueAt(selection, 5);
+//            Account account = this.applicationFacade.getAccounts().get(selection);
+
+            String accountNumber = (String) model.getValueAt(selection, 1);
+            Account account = applicationFacade.getAccount(accountNumber);
+
             this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
-            System.out.println(account.getBalance());
-            double currentamount = Double.parseDouble(samount);
-            double newamount = currentamount + deposit;
-            model.setValueAt(String.valueOf(newamount), selection, 5);
+//            System.out.println(account.getBalance());
+//            double currentamount = Double.parseDouble(samount);
+//            double newamount = currentamount + deposit;
+            model.setValueAt(String.valueOf(account.getBalance()), selection, 5);
         }
     }
 
@@ -308,10 +310,13 @@ public class BankFrm extends javax.swing.JFrame {
 
             // compute new amount
             double deposit = Long.parseLong(amountDeposit);
-            String samount = (String) model.getValueAt(selection, 5);
-            Account account = this.applicationFacade.getAccounts().get(selection);
+//            String samount = (String) model.getValueAt(selection, 5);
+//            Account account = this.applicationFacade.getAccounts().get(selection);
+            String accountNumber = (String) model.getValueAt(selection, 1);
+            Account account = applicationFacade.getAccount(accountNumber);
+
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
-            double currentamount = Double.parseDouble(samount);
+            double currentamount = account.getBalance();
             double newamount = currentamount - deposit;
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
@@ -323,8 +328,11 @@ public class BankFrm extends javax.swing.JFrame {
 
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
         this.applicationFacade.applyInterestToAllAccount();
-        for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
-            model.setValueAt(String.valueOf(this.applicationFacade.getAccounts().get(i).getBalance()) ,i,5);
+        Collection<Account> accounts = this.applicationFacade.getAccounts();
+        int i = 0;
+        for (Account account: accounts) {
+            model.setValueAt(String.valueOf(account.getBalance()) ,i,5);
+            i++;
         }
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }

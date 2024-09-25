@@ -50,6 +50,11 @@ public class CreditCardApplicationImpl implements ApplicationFacade<CreditCardAc
     }
 
     @Override
+    public Account getAccount(String accountNumber) {
+        return null;
+    }
+
+    @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }

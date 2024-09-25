@@ -9,14 +9,14 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BankApplicationImpl implements ApplicationFacade<BankAccountType>, Subject{
+public class BankApplicationImpl implements ApplicationFacade<BankAccountType>, Subject {
     List<Account> accounts = new ArrayList<>();
     List<Observer> observers = new ArrayList<>();
 
     @Override
     public Account createAccount(BankAccountType accountType, double balance, String accountNumber, String email) {
         BankAccountFactory bankAccountFactory = new BankAccountFactory();
-        Account newAccount = bankAccountFactory.createAccount(accountType,balance, accountNumber, email);
+        Account newAccount = bankAccountFactory.createAccount(accountType, balance, accountNumber, email);
         this.accounts.add(newAccount);
         return newAccount;
     }
@@ -64,7 +64,7 @@ public class BankApplicationImpl implements ApplicationFacade<BankAccountType>, 
 
     @Override
     public void notifyObservers(Account account) {
-        for(Observer o: observers) {
+        for (Observer o : observers) {
             o.update(account);
         }
     }
@@ -78,7 +78,7 @@ public class BankApplicationImpl implements ApplicationFacade<BankAccountType>, 
     }
 
     private Account createDummyAccount() {
-        Account dummyAccount = new SavingsAccount("123", 400, new CheckingInterest());
+        Account dummyAccount = new SavingsAccount("123", 400, new CheckingInterest(), "email");
         return dummyAccount;
     }
 }

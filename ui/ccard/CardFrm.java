@@ -13,7 +13,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFac
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -244,10 +244,9 @@ public class CardFrm extends javax.swing.JFrame {
     }
 
     void JButtonGenerateBill_actionPerformed(java.awt.event.ActionEvent event) {
-        JDialogGenBill billFrm = new JDialogGenBill();
+        JDialogGenBill billFrm = new JDialogGenBill(thisframe,JTable1,model, this.applicationFacade);
         billFrm.setBounds(450, 20, 400, 350);
         billFrm.show();
-
     }
 
     void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {

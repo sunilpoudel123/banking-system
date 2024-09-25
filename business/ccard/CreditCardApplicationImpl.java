@@ -1,5 +1,7 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.ccard;
 
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.CheckingInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.factory.CreditCardAccountFactory;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
@@ -50,11 +52,6 @@ public class CreditCardApplicationImpl implements ApplicationFacade<CreditCardAc
     }
 
     @Override
-    public Account getAccount(String accountNumber) {
-        return null;
-    }
-
-    @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
@@ -69,5 +66,19 @@ public class CreditCardApplicationImpl implements ApplicationFacade<CreditCardAc
         for(Observer o: observers) {
             o.update(account);
         }
+    }
+
+    @Override
+    public Account getAccount(String accountNumber) {
+        return this.accounts.stream()
+                .filter(account -> account.getAccountNumber() != null &&
+                        account.getAccountNumber().equals(accountNumber))
+                .findAny()
+                .orElse(createDummyAccount());
+    }
+
+    private Account createDummyAccount() {
+        Account dummyAccount = new SavingsAccount("123", 400, new CheckingInterest(), "email");
+        return dummyAccount;
     }
 }

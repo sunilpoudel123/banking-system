@@ -4,8 +4,12 @@ import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankAccountType;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.BankApplicationImpl;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAccount;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.observer.CompanyEmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.bank.observer.PersonalEmailSender;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFacade;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,7 +24,7 @@ public class BankFrm extends javax.swing.JFrame {
     /****
      * init variables in the object
      ****/
-    String accountnr, clientName, street, city, zip, state, clientType, amountDeposit;
+    String accountnr, clientName, street, city, zip, state, clientType, amountDeposit, email;
     BankAccountType accountType;
     boolean newaccount;
     private DefaultTableModel model;
@@ -33,6 +37,9 @@ public class BankFrm extends javax.swing.JFrame {
 
     public BankFrm() {
         this.applicationFacade = new BankApplicationImpl();
+        EmailSender mockEmailSender = new MockEmailSender();
+        this.applicationFacade.addObserver(new CompanyEmailSender(mockEmailSender));
+        this.applicationFacade.addObserver(new PersonalEmailSender(mockEmailSender));
         myframe = this;
         setTitle("Bank Application.");
         setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
@@ -56,6 +63,7 @@ public class BankFrm extends javax.swing.JFrame {
         model.addColumn("P/C");
         model.addColumn("Ch/S");
         model.addColumn("Amount");
+        model.addColumn("Email");
         rowdata = new Object[8];
         newaccount = false;
 
@@ -203,12 +211,12 @@ public class BankFrm extends javax.swing.JFrame {
         pac.show();
 
         if (this.accountType.equals(BankAccountType.SAVINGS)) {
-            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email );
             newAccount.setCity(city);
             newAccount.setOwnershipType("Personal");
             newAccount.setName(clientName);
         } else {
-            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
             newAccount.setCity(city);
             newAccount.setOwnershipType("Personal");
             newAccount.setName(clientName);
@@ -222,6 +230,7 @@ public class BankFrm extends javax.swing.JFrame {
             rowdata[3] = "P";
             rowdata[4] = accountType;
             rowdata[5] = "0";
+            rowdata[6] = email;
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
@@ -240,17 +249,16 @@ public class BankFrm extends javax.swing.JFrame {
         pac.show();
 
         if (this.accountType.equals(BankAccountType.SAVINGS)) {
-            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            SavingsAccount newAccount = (SavingsAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
             newAccount.setCity(city);
             newAccount.setOwnershipType("Company");
             newAccount.setName(clientName);
         } else {
-            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr);
+            CheckingAccount newAccount = (CheckingAccount) this.applicationFacade.createAccount(accountType, 0.0, accountnr, email);
             newAccount.setCity(city);
             newAccount.setOwnershipType("Company");
             newAccount.setName(clientName);
         }
-
         if (newaccount) {
             // add row to table
             rowdata[0] = accountnr;
@@ -259,6 +267,7 @@ public class BankFrm extends javax.swing.JFrame {
             rowdata[3] = "C";
             rowdata[4] = accountType;
             rowdata[5] = "0";
+            rowdata[6] = email;
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;

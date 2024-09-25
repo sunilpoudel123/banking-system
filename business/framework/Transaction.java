@@ -8,6 +8,7 @@ public class Transaction {
     private double amount;
     private String description;
     private TransactionType transactionType;
+    private boolean approved = false;
 
     public Transaction(double amount, String description, TransactionType transactionType) {
         this.amount = amount;
@@ -16,7 +17,7 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public TransactionType getEvent() {
+    public TransactionType getTransactionType() {
         return this.transactionType;
     }
 
@@ -30,6 +31,14 @@ public class Transaction {
 
     public double getAmount() {
         return this.amount;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    void approve() {
+        this.approved = true;
     }
 
     @Override

@@ -30,13 +30,18 @@ public class GoldCard extends Account {
     public void setType(String type) {
         this.type = type;
     }
-    public GoldCard(String accountNumber, double balance, InterestStrategy interestStrategy) {
-        super(accountNumber, balance, interestStrategy);
+    public GoldCard(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
+        super(accountNumber, balance, interestStrategy, email);
     }
 
     @Override
     public String getAccountType() {
         return "Gold Credit Card";
+    }
+
+    @Override
+    public String getOwnershipType() {
+        return "unimplemented";
     }
 }
 

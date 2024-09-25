@@ -30,13 +30,18 @@ public class SilverCard extends Account {
     public void setType(String type) {
         this.type = type;
     }
-    public SilverCard(String accountNumber,double balance ,  InterestStrategy interestStrategy) {
-        super(accountNumber,balance, interestStrategy);
+    public SilverCard(String accountNumber,double balance ,  InterestStrategy interestStrategy, String email) {
+        super(accountNumber,balance, interestStrategy, email);
     }
 
     @Override
     public String getAccountType() {
         return "Silver Credit Card";
+    }
+
+    @Override
+    public String getOwnershipType() {
+        return "unimplemented";
     }
 }
 

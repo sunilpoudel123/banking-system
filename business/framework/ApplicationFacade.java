@@ -2,9 +2,9 @@ package edu.mum.cs.cs525.labs.exercises.project.business.framework;
 
 import java.util.List;
 
-public interface ApplicationFacade<T> {
+public interface ApplicationFacade<T> extends Subject{
 
-    public Account createAccount(T accountType,double balance ,String accountNumber);
+    public Account createAccount(T accountType,double balance ,String accountNumber, String email);
 
     public void deposit(Account account,double amount);
 

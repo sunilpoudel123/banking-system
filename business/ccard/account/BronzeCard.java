@@ -32,13 +32,18 @@ public class BronzeCard extends Account {
         this.type = type;
     }
 
-    public BronzeCard(String accountNumber, double balance, InterestStrategy interestStrategy) {
-        super(accountNumber, balance, interestStrategy);
+    public BronzeCard(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
+        super(accountNumber, balance, interestStrategy, email);
     }
 
     @Override
     public String getAccountType() {
         return "Silver Credit Card";
+    }
+
+    @Override
+    public String getOwnershipType() {
+        return "unimplemented";
     }
 }
 

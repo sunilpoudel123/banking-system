@@ -13,7 +13,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.ApplicationFac
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.EmailSender;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.MockEmailSender;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -205,42 +205,6 @@ public class CardFrm extends javax.swing.JFrame {
 		 set the boundaries and show it 
 		*/
 
-        if (this.accountType.equals(CreditCardAccountType.GOLD)) {
-            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            if (isPersonal) {
-                newAccount.setOwnershipType("Personal");
-            } else {
-                newAccount.setOwnershipType("Company");
-            }
-
-        } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
-            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            if (isPersonal) {
-                newAccount.setOwnershipType("Personal");
-            } else {
-                newAccount.setOwnershipType("Company");
-            }
-        }else {
-            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-            newAccount.setType(city);
-            newAccount.setName(clientName);
-
-            // TODO: make ui support ownership
-            if (isPersonal) {
-                newAccount.setOwnershipType("Personal");
-            } else {
-                newAccount.setOwnershipType("Company");
-            }
-        }
-
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
         ccac.setBounds(450, 20, 300, 380);
         ccac.show();
@@ -261,14 +225,48 @@ public class CardFrm extends javax.swing.JFrame {
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
+            if (this.accountType.equals(CreditCardAccountType.GOLD)) {
+                GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
+
+            } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
+                SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
+            }else {
+                BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                newAccount.setType(city);
+                newAccount.setName(clientName);
+
+                // TODO: make ui support ownership
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
+            }
         }
     }
 
     void JButtonGenerateBill_actionPerformed(java.awt.event.ActionEvent event) {
-        JDialogGenBill billFrm = new JDialogGenBill();
+        JDialogGenBill billFrm = new JDialogGenBill(thisframe,JTable1,model, this.applicationFacade);
         billFrm.setBounds(450, 20, 400, 350);
         billFrm.show();
-
     }
 
     void JButtonDeposit_actionPerformed(java.awt.event.ActionEvent event) {
@@ -287,10 +285,10 @@ public class CardFrm extends javax.swing.JFrame {
 
             // compute new amount
             double deposit = Double.parseDouble(amountDeposit);
-            String samount = (String) model.getValueAt(selection, 4);
+            String samount = (String) model.getValueAt(selection, 5);
             double currentamount = Double.parseDouble(samount);
             double newamount = currentamount + deposit;
-            model.setValueAt(String.valueOf(newamount), selection, 4);
+            model.setValueAt(String.valueOf(newamount), selection, 5);
         }
     }
 

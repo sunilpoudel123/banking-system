@@ -3,6 +3,8 @@ package edu.mum.cs.cs525.labs.exercises.project.business.ccard.account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrategy;
 
+import static edu.mum.cs.cs525.labs.exercises.project.business.ccard.ApplicationConfiguration.BRONZE_CARD;
+
 public class BronzeCard extends Account {
 
 
@@ -47,8 +49,19 @@ public class BronzeCard extends Account {
         return ownershipType;
     }
 
+    @Override
+    protected double calculateNewBalance() {
+        return getPreviousBalance() - getTotalCredits() + getTotalCharges() + BRONZE_CARD.getMonthlyInterestRate() * (getPreviousBalance() - getTotalCredits());
+    }
+
+    @Override
+    protected double calculateTotalDue(double newBalance) {
+        return BRONZE_CARD.getMinimumPayment() * newBalance;
+    }
+
     public void setOwnershipType(String ownershipType) {
         this.ownershipType = ownershipType;
     }
+
 }
 

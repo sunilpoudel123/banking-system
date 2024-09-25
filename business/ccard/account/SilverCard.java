@@ -3,6 +3,9 @@ package edu.mum.cs.cs525.labs.exercises.project.business.ccard.account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrategy;
 
+import static edu.mum.cs.cs525.labs.exercises.project.business.ccard.ApplicationConfiguration.BRONZE_CARD;
+import static edu.mum.cs.cs525.labs.exercises.project.business.ccard.ApplicationConfiguration.SILVER_CARD;
+
 public class SilverCard extends Account {
 
     String name,expDate,type;
@@ -43,6 +46,17 @@ public class SilverCard extends Account {
     @Override
     public String getOwnershipType() {
         return ownershipType;
+    }
+
+    @Override
+    protected double calculateNewBalance() {
+        return getPreviousBalance() - getTotalCredits() + getTotalCharges() + SILVER_CARD.getMonthlyInterestRate() * (getPreviousBalance() - getTotalCredits());
+
+    }
+
+    @Override
+    protected double calculateTotalDue(double newBalance) {
+        return SILVER_CARD.getMinimumPayment() * newBalance;
     }
 
     public void setOwnershipType(String ownershipType) {

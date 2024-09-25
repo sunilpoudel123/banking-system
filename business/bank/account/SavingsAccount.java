@@ -32,6 +32,16 @@ public class SavingsAccount extends Account {
         return ownershipType;
     }
 
+    @Override
+    protected double calculateNewBalance() {
+        return 0;
+    }
+
+    @Override
+    protected double calculateTotalDue(double newBalance) {
+        return 0;
+    }
+
     public SavingsAccount(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
         super(accountNumber, balance, interestStrategy, email);
     }

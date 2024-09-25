@@ -215,6 +215,7 @@ public class JDialog_AddCCAccount extends javax.swing.JDialog {
                 parentframe.accountType = CreditCardAccountType.BRONZE;
         }
         parentframe.newaccount = true;
+
         dispose();
     }
 

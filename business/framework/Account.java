@@ -84,4 +84,19 @@ public abstract class Account {
         transaction.approve();
         this.transactions.add(transaction);
     }
+    public double getPreviousBalance() {
+        return getBalance();
+    }
+
+    public double getTotalCharges() {
+        return 0.0;
+    }
+
+    public double getTotalCredits() {
+        return 0.0;
+    }
+
+    public double getInterestRate() {
+        return 0.0;
+    }
 }

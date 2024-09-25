@@ -15,6 +15,5 @@ public interface ApplicationFacade<T> extends Subject{
     public void undoLastTransaction(Account account);
 
     public List<Account> getAccounts();
-
-
+    public Account getAccount(String accountNumber);
 }

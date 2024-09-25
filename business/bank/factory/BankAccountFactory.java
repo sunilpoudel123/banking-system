@@ -10,12 +10,12 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountFactory
 
 public class BankAccountFactory extends AccountFactory<BankAccountType> {
     @Override
-    public Account createAccount(BankAccountType accountType,double balance ,String accountNumber) {
+    public Account createAccount(BankAccountType accountType,double balance ,String accountNumber, String email) {
         switch (accountType) {
             case SAVINGS:
-                return new SavingsAccount(accountNumber, balance,new SavingInterest());
+                return new SavingsAccount(accountNumber, balance,new SavingInterest(), email);
             case CHECKING:
-                return new CheckingAccount(accountNumber, balance,new CheckingInterest());
+                return new CheckingAccount(accountNumber, balance,new CheckingInterest(), email);
             default:
                 throw new IllegalArgumentException("Unknown bank account type");
         }

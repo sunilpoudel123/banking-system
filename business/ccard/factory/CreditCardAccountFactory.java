@@ -12,14 +12,14 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountFactory
 
 public class CreditCardAccountFactory extends AccountFactory<CreditCardAccountType> {
     @Override
-    public Account createAccount(CreditCardAccountType accountType,double balance , String accountNumber) {
+    public Account createAccount(CreditCardAccountType accountType,double balance , String accountNumber, String email) {
         switch (accountType) {
             case GOLD:
-                return new GoldCard(accountNumber,balance, new GoldCardInterest());
+                return new GoldCard(accountNumber,balance, new GoldCardInterest(), email);
             case SILVER:
-                return new SilverCard(accountNumber,balance ,new SilverCardInterest());
+                return new SilverCard(accountNumber,balance ,new SilverCardInterest(), email);
             case BRONZE:
-                return new BronzeCard(accountNumber,balance, new BronzeCardInterest());
+                return new BronzeCard(accountNumber,balance, new BronzeCardInterest(), email);
             default:
                 throw new IllegalArgumentException("Unknown credit card account type");
         }

@@ -6,6 +6,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrate
 public class GoldCard extends Account {
 
     String name,expDate,type;
+    private String ownershipType;
 
     public String getName() {
         return name;
@@ -30,13 +31,22 @@ public class GoldCard extends Account {
     public void setType(String type) {
         this.type = type;
     }
-    public GoldCard(String accountNumber, double balance, InterestStrategy interestStrategy) {
-        super(accountNumber, balance, interestStrategy);
+    public GoldCard(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
+        super(accountNumber, balance, interestStrategy, email);
     }
 
     @Override
     public String getAccountType() {
         return "Gold Credit Card";
+    }
+
+    @Override
+    public String getOwnershipType() {
+        return ownershipType;
+    }
+
+    public void setOwnershipType(String ownershipType) {
+        this.ownershipType = ownershipType;
     }
 }
 

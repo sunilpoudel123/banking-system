@@ -11,13 +11,13 @@ public class MainApp {
     public static void main(String[] args) {
         // Create bank accounts using enums
         AccountFactory<BankAccountType> bankFactory = new BankAccountFactory();
-        Account savings = bankFactory.createAccount(BankAccountType.SAVINGS, 0.0,"SAV12345");
-        Account checking = bankFactory.createAccount(BankAccountType.CHECKING, 0.0,"CHK12345");
+        Account savings = bankFactory.createAccount(BankAccountType.SAVINGS, 0.0,"SAV12345", "first@mail.com");
+        Account checking = bankFactory.createAccount(BankAccountType.CHECKING, 0.0,"CHK12345", "second@mail.com");
 
         // Create credit card accounts using enums
         AccountFactory<CreditCardAccountType> cardFactory = new CreditCardAccountFactory();
-        Account goldCard = cardFactory.createAccount(CreditCardAccountType.GOLD,0.0, "GOLD12345");
-        Account silverCard = cardFactory.createAccount(CreditCardAccountType.SILVER,0.0, "SILV12345");
+        Account goldCard = cardFactory.createAccount(CreditCardAccountType.GOLD,0.0, "GOLD12345", "third@mail.com");
+        Account silverCard = cardFactory.createAccount(CreditCardAccountType.SILVER,0.0, "SILV12345", "forth@mail.com");
 
         ///Command pattern
 //        Command deposit1000 = new DepositCommand(savings, 1000);

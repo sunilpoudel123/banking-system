@@ -8,15 +8,18 @@ public abstract class Account {
     private String accountNumber;
     private double balance;
     private InterestStrategy interestStrategy;
+    private String email;
 
     protected AccountInvoker invoker = new AccountInvoker(); // Invoker for commands
 
     private final List<Transaction> transactions = new ArrayList<Transaction>();
+    private Transaction lastAttemptTransaction;
 
-    public Account(String accountNumber, double balance,InterestStrategy interestStrategy) {
+    public Account(String accountNumber, double balance,InterestStrategy interestStrategy, String email) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.interestStrategy = interestStrategy;
+        this.email = email;
     }
 
     public void setInterestStrategy(InterestStrategy interestStrategy) {
@@ -34,18 +37,24 @@ public abstract class Account {
     public void deposit(double amount) {
         balance += amount;
         Transaction transaction = new Transaction(amount,"", TransactionType.DEPOSIT);
-        this.transactions.add(transaction);
+        lastAttemptTransaction = transaction;
+        addTransaction(transaction);
     }
 
     public List<Transaction> getTransactions() {
         return this.transactions;
     }
 
+    public Transaction getLastAttemptTransaction() {
+        return lastAttemptTransaction;
+    }
+
     public void withdraw(double amount) {
+        Transaction transaction = new Transaction(amount,"", TransactionType.WITHDRAW);
+        lastAttemptTransaction = transaction;
         if (balance >= amount) {
             balance -= amount;
-            Transaction transaction = new Transaction(amount,"", TransactionType.WITHDRAW);
-            this.transactions.add(transaction);
+            addTransaction(transaction);
         } else {
             System.out.println("Insufficient balance.");
         }
@@ -56,6 +65,7 @@ public abstract class Account {
     }
 
     public abstract String getAccountType();
+    public abstract String getOwnershipType();
 
     public void executeTransaction(Command command) {
         invoker.executeCommand(command);
@@ -66,4 +76,12 @@ public abstract class Account {
         invoker.undoLastCommand();
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    private void addTransaction(Transaction transaction) {
+        transaction.approve();
+        this.transactions.add(transaction);
+    }
 }

@@ -174,18 +174,19 @@ public class JDialog_AddPAcc extends javax.swing.JDialog
 
 	void JButtonOK_actionPerformed(java.awt.event.ActionEvent event)
 	{
-       parentframe.accountnr=JTextField_ACNR.getText();
-       parentframe.clientName=JTextField_NAME.getText();
-       parentframe.street=JTextField_STR.getText();
-       parentframe.city=JTextField_CT.getText();
-       parentframe.zip=JTextField_ZIP.getText();
-       parentframe.state=JTextField_ST.getText();
-       if (JRadioButton_Chk.isSelected())
-           parentframe.accountType= BankAccountType.CHECKING;
-           else
-           parentframe.accountType=BankAccountType.SAVINGS;
-	   parentframe.newaccount=true;
-       dispose();
+		parentframe.accountnr=JTextField_ACNR.getText();
+		parentframe.clientName=JTextField_NAME.getText();
+		parentframe.street=JTextField_STR.getText();
+		parentframe.city=JTextField_CT.getText();
+		parentframe.zip=JTextField_ZIP.getText();
+		parentframe.state=JTextField_ST.getText();
+		parentframe.email=JTextField_EM.getText();
+		if (JRadioButton_Chk.isSelected())
+			parentframe.accountType= BankAccountType.CHECKING;
+		else
+			parentframe.accountType=BankAccountType.SAVINGS;
+		parentframe.newaccount=true;
+		dispose();
 	}
 
 	void JButtonCalcel_actionPerformed(java.awt.event.ActionEvent event)

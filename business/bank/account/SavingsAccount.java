@@ -32,8 +32,8 @@ public class SavingsAccount extends Account {
         return ownershipType;
     }
 
-    public SavingsAccount(String accountNumber, double balance, InterestStrategy interestStrategy) {
-        super(accountNumber, balance, interestStrategy);
+    public SavingsAccount(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
+        super(accountNumber, balance, interestStrategy, email);
     }
 
     @Override

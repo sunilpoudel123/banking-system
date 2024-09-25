@@ -267,7 +267,7 @@ public class CardFrm extends javax.swing.JFrame {
             // compute new amount
             double deposit = Double.parseDouble(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
-            double currentamount = Long.parseLong(samount);
+            double currentamount = Double.parseDouble(samount);
             double newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 4);
         }

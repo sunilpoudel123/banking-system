@@ -31,6 +31,8 @@ public class CardFrm extends javax.swing.JFrame {
     String clientName, street, city, zip, state, amountDeposit, expdate, ccnumber, email;
 
     CreditCardAccountType accountType = CreditCardAccountType.GOLD;
+    boolean isPersonal = true;
+
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
@@ -202,29 +204,6 @@ public class CardFrm extends javax.swing.JFrame {
 		 set the boundaries and show it 
 		*/
 
-//        if (this.accountType.equals(CreditCardAccountType.GOLD)) {
-//            GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-//            newAccount.setType(city);
-//            newAccount.setName(clientName);
-//
-//            // TODO: make ui support ownership
-//            newAccount.setOwnershipType("Personal");
-//        } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
-//            SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-//            newAccount.setType(city);
-//            newAccount.setName(clientName);
-//
-//            // TODO: make ui support ownership
-//            newAccount.setOwnershipType("Personal");
-//        }else {
-//            BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
-//            newAccount.setType(city);
-//            newAccount.setName(clientName);
-//
-//            // TODO: make ui support ownership
-//            newAccount.setOwnershipType("Personal");
-//        }
-
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
         ccac.setBounds(450, 20, 300, 380);
         ccac.show();
@@ -235,35 +214,51 @@ public class CardFrm extends javax.swing.JFrame {
             rowdata[1] = ccnumber;
             rowdata[2] = expdate;
             rowdata[3] = accountType;
-            rowdata[4] = "0";
-            rowdata[5] = email;
+            if (isPersonal) {
+                rowdata[4] = "P";
+            }
+            else rowdata[4] = "C";
+
+            rowdata[5] = "0";
+            rowdata[6] = email;
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
-
             if (this.accountType.equals(CreditCardAccountType.GOLD)) {
                 GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
 
                 // TODO: make ui support ownership
-                newAccount.setOwnershipType("Personal");
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
+
             } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
                 SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
 
                 // TODO: make ui support ownership
-                newAccount.setOwnershipType("Personal");
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
             }else {
                 BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
 
                 // TODO: make ui support ownership
-                newAccount.setOwnershipType("Personal");
+                if (isPersonal) {
+                    newAccount.setOwnershipType("Personal");
+                } else {
+                    newAccount.setOwnershipType("Company");
+                }
             }
-
         }
     }
 
@@ -290,7 +285,7 @@ public class CardFrm extends javax.swing.JFrame {
             // compute new amount
             double deposit = Double.parseDouble(amountDeposit);
             String samount = (String) model.getValueAt(selection, 4);
-            double currentamount = Long.parseLong(samount);
+            double currentamount = Double.parseDouble(samount);
             double newamount = currentamount + deposit;
             model.setValueAt(String.valueOf(newamount), selection, 4);
         }

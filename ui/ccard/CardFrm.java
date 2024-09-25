@@ -70,6 +70,7 @@ public class CardFrm extends javax.swing.JFrame {
         model.addColumn("CC number");
         model.addColumn("Exp date");
         model.addColumn("Type");
+        model.addColumn("P/C");
         model.addColumn("Balance");
         model.addColumn("Email");
         rowdata = new Object[7];
@@ -284,10 +285,10 @@ public class CardFrm extends javax.swing.JFrame {
 
             // compute new amount
             double deposit = Double.parseDouble(amountDeposit);
-            String samount = (String) model.getValueAt(selection, 4);
+            String samount = (String) model.getValueAt(selection, 5);
             double currentamount = Double.parseDouble(samount);
             double newamount = currentamount + deposit;
-            model.setValueAt(String.valueOf(newamount), selection, 4);
+            model.setValueAt(String.valueOf(newamount), selection, 5);
         }
     }
 

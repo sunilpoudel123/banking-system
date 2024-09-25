@@ -31,6 +31,8 @@ public class CardFrm extends javax.swing.JFrame {
     String clientName, street, city, zip, state, amountDeposit, expdate, ccnumber, email;
 
     CreditCardAccountType accountType = CreditCardAccountType.GOLD;
+    boolean isPersonal = true;
+
     boolean newaccount;
     private DefaultTableModel model;
     private JTable JTable1;
@@ -68,6 +70,7 @@ public class CardFrm extends javax.swing.JFrame {
         model.addColumn("CC number");
         model.addColumn("Exp date");
         model.addColumn("Type");
+        model.addColumn("P/C");
         model.addColumn("Balance");
         model.addColumn("Email");
         rowdata = new Object[7];
@@ -208,21 +211,34 @@ public class CardFrm extends javax.swing.JFrame {
             newAccount.setName(clientName);
 
             // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
+            if (isPersonal) {
+                newAccount.setOwnershipType("Personal");
+            } else {
+                newAccount.setOwnershipType("Company");
+            }
+
         } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
             SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
             newAccount.setType(city);
             newAccount.setName(clientName);
 
             // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
+            if (isPersonal) {
+                newAccount.setOwnershipType("Personal");
+            } else {
+                newAccount.setOwnershipType("Company");
+            }
         }else {
             BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
             newAccount.setType(city);
             newAccount.setName(clientName);
 
             // TODO: make ui support ownership
-            newAccount.setOwnershipType("Personal");
+            if (isPersonal) {
+                newAccount.setOwnershipType("Personal");
+            } else {
+                newAccount.setOwnershipType("Company");
+            }
         }
 
         JDialog_AddCCAccount ccac = new JDialog_AddCCAccount(thisframe);
@@ -235,8 +251,13 @@ public class CardFrm extends javax.swing.JFrame {
             rowdata[1] = ccnumber;
             rowdata[2] = expdate;
             rowdata[3] = accountType;
-            rowdata[4] = "0";
-            rowdata[5] = email;
+            if (isPersonal) {
+                rowdata[4] = "P";
+            }
+            else rowdata[4] = "C";
+
+            rowdata[5] = "0";
+            rowdata[6] = email;
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;

@@ -9,14 +9,14 @@ import edu.mum.cs.cs525.labs.exercises.project.business.framework.AbstractAccoun
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountOwnerType;
 
-public class AccountFactory implements AbstractAccountFactory {
+public class BankAccountFactory implements AbstractAccountFactory {
     BankAccountType accountType;
     private double balance ;
     private String accountNumber;
     private String email;
     private AccountOwnerType accountOwnerType;
 
-    public AccountFactory(BankAccountType accountType, double balance , String accountNumber, String email, AccountOwnerType accountOwnerType) {
+    public BankAccountFactory(BankAccountType accountType, double balance , String accountNumber, String email, AccountOwnerType accountOwnerType) {
         this.accountType = accountType;
         this.balance = balance ;
         this.accountNumber = accountNumber;

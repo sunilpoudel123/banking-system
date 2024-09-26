@@ -1,19 +1,13 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.framework;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface ApplicationFacade<T> extends Subject{
-
-    public Account createAccount(T accountType,double balance ,String accountNumber, String email);
-
+    public Account createAccount(T accountType,double balance ,String accountNumber, String email, AccountOwnerType accountOwnerType);
     public void deposit(Account account,double amount);
-
     public void withdraw(Account account,double amount);
-
     public void applyInterestToAllAccount();
-
     public void undoLastTransaction(Account account);
-
-    public List<Account> getAccounts();
+    public Collection<Account> getAccounts();
     public Account getAccount(String accountNumber);
 }

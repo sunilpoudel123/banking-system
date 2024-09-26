@@ -5,17 +5,32 @@ import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAcc
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.CheckingInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.SavingInterest;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountFactory;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountOwnerType;
 
-public class BankAccountFactory extends AccountFactory<BankAccountType> {
+public class BankAccountFactory implements AccountFactory {
+    BankAccountType accountType;
+    private double balance ;
+    private String accountNumber;
+    private String email;
+    private AccountOwnerType accountOwnerType;
+
+    public BankAccountFactory(BankAccountType accountType, double balance , String accountNumber, String email, AccountOwnerType accountOwnerType) {
+        this.accountType = accountType;
+        this.balance = balance ;
+        this.accountNumber = accountNumber;
+        this.email =email;
+        this.accountOwnerType = accountOwnerType;
+    }
+
     @Override
-    public Account createAccount(BankAccountType accountType,double balance ,String accountNumber, String email) {
+    public Account createAccount() {
         switch (accountType) {
             case SAVINGS:
-                return new SavingsAccount(accountNumber, balance,new SavingInterest(), email);
+                return new SavingsAccount(accountNumber, balance,new SavingInterest(), email, accountOwnerType);
             case CHECKING:
-                return new CheckingAccount(accountNumber, balance,new CheckingInterest(), email);
+                return new CheckingAccount(accountNumber, balance,new CheckingInterest(), email, accountOwnerType);
             default:
                 throw new IllegalArgumentException("Unknown bank account type");
         }

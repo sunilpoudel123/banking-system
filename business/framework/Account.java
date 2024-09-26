@@ -9,17 +9,19 @@ public abstract class Account {
     private double balance;
     private InterestStrategy interestStrategy;
     private String email;
+    private AccountOwnerType accountOwnerType;
 
     protected AccountInvoker invoker = new AccountInvoker(); // Invoker for commands
 
     private final List<Transaction> transactions = new ArrayList<Transaction>();
     private Transaction lastAttemptTransaction;
 
-    public Account(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
+    public Account(String accountNumber, double balance, InterestStrategy interestStrategy, String email, AccountOwnerType accountOwnerType) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.interestStrategy = interestStrategy;
         this.email = email;
+        this.accountOwnerType = accountOwnerType;
     }
 
     public void setInterestStrategy(InterestStrategy interestStrategy) {
@@ -28,6 +30,10 @@ public abstract class Account {
 
     public String getAccountNumber() {
         return accountNumber;
+    }
+
+    public AccountOwnerType getAccountOwnerType() {
+        return accountOwnerType;
     }
 
     public double getBalance() {
@@ -65,8 +71,6 @@ public abstract class Account {
     }
 
     public abstract String getAccountType();
-
-    public abstract String getOwnershipType();
 
     public void executeTransaction(Command command) {
         invoker.executeCommand(command);

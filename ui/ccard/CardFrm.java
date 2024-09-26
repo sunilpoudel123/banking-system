@@ -11,6 +11,7 @@ import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.*;
 
 import java.awt.*;
+import java.util.Collection;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -43,7 +44,8 @@ public class CardFrm extends javax.swing.JFrame {
     public CardFrm() {
         thisframe = this;
         setTitle("Credit-card processing Application.");
-        this.applicationFacade = new CreditCardApplicationImpl();
+        AccountDOA accountDOA = new AccountDOAInMemory();
+        this.applicationFacade = new CreditCardApplicationImpl(accountDOA);
         EmailSender emailSender = new JPaneEmailSender();
         this.applicationFacade.addObserver(new CompanyEmailSender(emailSender));
         this.applicationFacade.addObserver(new PersonalEmailSender(emailSender));
@@ -222,40 +224,24 @@ public class CardFrm extends javax.swing.JFrame {
             model.addRow(rowdata);
             JTable1.getSelectionModel().setAnchorSelectionIndex(-1);
             newaccount = false;
+            AccountOwnerType accountOwnerType;
+            if (isPersonal) {
+                accountOwnerType = AccountOwnerType.PERSONAL;
+            } else {
+                accountOwnerType = AccountOwnerType.COMPANY;
+            }
             if (this.accountType.equals(CreditCardAccountType.GOLD)) {
-                GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                GoldCard newAccount = (GoldCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email, accountOwnerType);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
-
-                // TODO: make ui support ownership
-                if (isPersonal) {
-                    newAccount.setOwnershipType("Personal");
-                } else {
-                    newAccount.setOwnershipType("Company");
-                }
-
             } else if (this.accountType.equals(CreditCardAccountType.SILVER)) {
-                SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                SilverCard newAccount = (SilverCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email, accountOwnerType);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
-
-                // TODO: make ui support ownership
-                if (isPersonal) {
-                    newAccount.setOwnershipType("Personal");
-                } else {
-                    newAccount.setOwnershipType("Company");
-                }
             }else {
-                BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email);
+                BronzeCard newAccount = (BronzeCard) this.applicationFacade.createAccount(accountType, 0.0, ccnumber, email, accountOwnerType);
                 newAccount.setType(city);
                 newAccount.setName(clientName);
-
-                // TODO: make ui support ownership
-                if (isPersonal) {
-                    newAccount.setOwnershipType("Personal");
-                } else {
-                    newAccount.setOwnershipType("Company");
-                }
             }
         }
     }
@@ -277,7 +263,10 @@ public class CardFrm extends javax.swing.JFrame {
             dep.setBounds(430, 15, 275, 140);
             dep.show();
 
-            Account account = this.applicationFacade.getAccounts().get(selection);
+//            Account account = this.applicationFacade.getAccounts().get(selection);
+            String accountNumber = (String) model.getValueAt(selection, 1);
+            Account account = applicationFacade.getAccount(accountNumber);
+
             this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
 
             // compute new amount
@@ -300,7 +289,10 @@ public class CardFrm extends javax.swing.JFrame {
             wd.setBounds(430, 15, 275, 140);
             wd.show();
 
-            Account account = this.applicationFacade.getAccounts().get(selection);
+//            Account account = this.applicationFacade.getAccounts().get(selection);
+            String accountNumber = (String) model.getValueAt(selection, 1);
+            Account account = applicationFacade.getAccount(accountNumber);
+
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
             // compute new amount
             double deposit = Double.parseDouble(amountDeposit);
@@ -316,8 +308,11 @@ public class CardFrm extends javax.swing.JFrame {
 
     void JButtonAddinterest_actionPerformed(java.awt.event.ActionEvent event) {
         this.applicationFacade.applyInterestToAllAccount();
-        for (int i = 0; i < this.applicationFacade.getAccounts().size(); i++) {
-            model.setValueAt(String.valueOf(this.applicationFacade.getAccounts().get(i).getBalance()) ,i,4);
+        Collection<Account> accounts = this.applicationFacade.getAccounts();
+        int i = 0;
+        for (Account account: accounts) {
+            model.setValueAt(String.valueOf(account.getBalance()) ,i,4);
+            i++;
         }
         JOptionPane.showMessageDialog(JButton_Addinterest, "Add interest to all accounts", "Add interest to all accounts", JOptionPane.WARNING_MESSAGE);
     }

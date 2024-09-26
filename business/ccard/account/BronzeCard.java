@@ -1,15 +1,13 @@
 package edu.mum.cs.cs525.labs.exercises.project.business.ccard.account;
 
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountOwnerType;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.InterestStrategy;
 
 import static edu.mum.cs.cs525.labs.exercises.project.business.ccard.ApplicationConfiguration.BRONZE_CARD;
 
 public class BronzeCard extends Account {
-
-
     String name,expDate,type;
-    private String ownershipType;
 
     public String getName() {
         return name;
@@ -35,18 +33,13 @@ public class BronzeCard extends Account {
         this.type = type;
     }
 
-    public BronzeCard(String accountNumber, double balance, InterestStrategy interestStrategy, String email) {
-        super(accountNumber, balance, interestStrategy, email);
+    public BronzeCard(String accountNumber, double balance, InterestStrategy interestStrategy, String email, AccountOwnerType accountOwnerType) {
+        super(accountNumber, balance, interestStrategy, email, accountOwnerType);
     }
 
     @Override
     public String getAccountType() {
         return "Silver Credit Card";
-    }
-
-    @Override
-    public String getOwnershipType() {
-        return ownershipType;
     }
 
     @Override
@@ -58,10 +51,5 @@ public class BronzeCard extends Account {
     protected double calculateTotalDue(double newBalance) {
         return BRONZE_CARD.getMinimumPayment() * newBalance;
     }
-
-    public void setOwnershipType(String ownershipType) {
-        this.ownershipType = ownershipType;
-    }
-
 }
 

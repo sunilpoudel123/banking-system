@@ -12,8 +12,8 @@ public class ApplicationImpl implements Subject {
         this.accountDOA = accountDOA;
     }
 
-    public Account createAccount(AbstractAccountFactory abstractAccountFactory) {
-        Account newAccount = abstractAccountFactory.createAccount();
+    public Account createAccount(AccountFactory accountFactory) {
+        Account newAccount = accountFactory.createAccount();
         accountDOA.store(newAccount);
         return newAccount;
     }

@@ -5,11 +5,11 @@ import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.CheckingAcc
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.account.SavingsAccount;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.CheckingInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.bank.interest.SavingInterest;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.AbstractAccountFactory;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountFactory;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountOwnerType;
 
-public class BankAccountFactory implements AbstractAccountFactory {
+public class BankAccountFactory implements AccountFactory {
     BankAccountType accountType;
     private double balance ;
     private String accountNumber;

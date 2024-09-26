@@ -286,7 +286,7 @@ public class BankFrm extends javax.swing.JFrame {
 //            String samount = (String) model.getValueAt(selection, 5);
 //            Account account = this.applicationFacade.getAccounts().get(selection);
 
-            String accountNumber = (String) model.getValueAt(selection, 1);
+            String accountNumber = (String) model.getValueAt(selection, 0);
             Account account = applicationFacade.getAccount(accountNumber);
 
             this.applicationFacade.deposit(account, Double.valueOf(amountDeposit));
@@ -312,12 +312,13 @@ public class BankFrm extends javax.swing.JFrame {
             double deposit = Long.parseLong(amountDeposit);
 //            String samount = (String) model.getValueAt(selection, 5);
 //            Account account = this.applicationFacade.getAccounts().get(selection);
-            String accountNumber = (String) model.getValueAt(selection, 1);
+            String accountNumber = (String) model.getValueAt(selection, 0);
             Account account = applicationFacade.getAccount(accountNumber);
 
             this.applicationFacade.withdraw(account, Double.valueOf(amountDeposit));
-            double currentamount = account.getBalance();
-            double newamount = currentamount - deposit;
+//            double currentamount = account.getBalance();
+//            double newamount = currentamount - deposit;
+            double newamount = account.getBalance();
             if (newamount < 0) {
                 JOptionPane.showMessageDialog(JButton_Withdraw, " Account " + accnr + " : balance is negative: $" + String.valueOf(newamount) + " !", "Warning: negative balance", JOptionPane.WARNING_MESSAGE);
             } else {

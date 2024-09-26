@@ -7,12 +7,11 @@ import edu.mum.cs.cs525.labs.exercises.project.business.ccard.account.SilverCard
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.interest.BronzeCardInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.interest.GoldCardInterest;
 import edu.mum.cs.cs525.labs.exercises.project.business.ccard.interest.SilverCardInterest;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.AbstractAccountFactory;
-import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountFactory;
+import edu.mum.cs.cs525.labs.exercises.project.business.framework.Account;
 import edu.mum.cs.cs525.labs.exercises.project.business.framework.AccountOwnerType;
 
-public class CreditCardAccountFactory implements AbstractAccountFactory {
+public class CreditCardAccountFactory implements AccountFactory {
     private CreditCardAccountType accountType;
     private double balance ;
     private String accountNumber;
